@@ -1,6 +1,7 @@
 import React from 'react'
 import CustomerCard from './CustomerCard'
 import { RiExpandUpDownFill } from "react-icons/ri";
+import { motion, AnimatePresence } from 'framer-motion'
 const Customer = () => {
  const [showCustomer , setShowCustomer] = React.useState(false);
  const customer = [{ name: "Raj Verma", date: "16/08/24", image: "https://th.bing.com/th/id/OIP.0XkKBWC40U2pz_ADMzQtfQHaFW?w=229&h=180&c=7&r=0&o=5&pid=1.7" },
@@ -24,18 +25,29 @@ const Customer = () => {
       <div>Last Invoice</div>
       <div>Action</div>
     </div>
+    <AnimatePresence>
     {
       showCustomer &&(
-        customer.map((customer, index) => (
-          <CustomerCard
-            key={index}
-            name={customer.name}
-            date={customer.date}
-            pic={customer.image}
-          />
-        ))
+        <motion.div 
+        initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+        >
+        {
+          customer.map((customer, index) => (
+            <CustomerCard
+              key={index}
+              name={customer.name}
+              date={customer.date}
+              pic={customer.image}
+            />
+          ))
+        }
+        </motion.div>
       )
     }
+    </AnimatePresence>
     </div>
   )
 }
